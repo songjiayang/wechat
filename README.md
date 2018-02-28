@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-    // wechat config.
+    	// wechat config.
 	cfg := &wechat.Config{
 		AppID:     os.Getenv("WECHAT_APPID"),
 		SecretKey: os.Getenv("WECHAT_SECRETKEY"),
@@ -30,9 +30,9 @@ func main() {
 
 	// mini app login with user code.
 	output, _ := client.Login("code")
-    fmt.Println(output)
+    	fmt.Println(output)
     
-    // get accessToken and cached.
+    	// get accessToken and cached.
 	token, _ := client.AccessToken()
 	fmt.Println(token)
 }
