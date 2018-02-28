@@ -82,8 +82,7 @@ func (wechat *Wechat) AccessToken() (token string, err error) {
 	}
 
 	wechat.accessToken = output.AccessToken
-	//hack way make it expire beforehand
-	wechat.accessTokenExpiresAt = time.Now().Unix() + output.ExpiresIn - 30
+	wechat.accessTokenExpiresAt = time.Now().Unix() + output.ExpiresIn
 
 	return output.AccessToken, nil
 }
