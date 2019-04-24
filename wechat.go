@@ -13,14 +13,12 @@ const (
 	endpoint        = "https://api.weixin.qq.com"
 	loginPath       = "/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code"
 	accessTokenPath = "/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s"
-
-	jsonContentType = "application/json"
 )
 
 type Wechat struct {
 	*http.Client
 
-	appid     string
+	appID     string
 	secretKey string
 
 	accessToken          string
@@ -38,13 +36,13 @@ func NewWechat(cfg *Config) *Wechat {
 
 	return &Wechat{
 		Client:    client,
-		appid:     cfg.AppID,
+		appID:     cfg.AppID,
 		secretKey: cfg.SecretKey,
 	}
 }
 
-func (wechat *Wechat) Login(code string) (output *LoginOutput, err error) {
-	data, err := wechat.doReqeust(buildAPI(loginPath, wechat.appid, wechat.secretKey, code))
+func (w *Wechat) Login(code string) (output *LoginOutput, err error) {
+	data, err := w.doRequest(buildAPI(loginPath, w.appID, w.secretKey, code))
 	if err != nil {
 		return
 	}
@@ -61,12 +59,12 @@ func (wechat *Wechat) Login(code string) (output *LoginOutput, err error) {
 	return
 }
 
-func (wechat *Wechat) AccessToken() (token string, err error) {
-	if wechat.accessToken != "" && time.Now().Unix() < wechat.accessTokenExpiresAt {
-		return wechat.accessToken, nil
+func (w *Wechat) AccessToken() (token string, err error) {
+	if w.accessToken != "" && time.Now().Unix() < w.accessTokenExpiresAt {
+		return w.accessToken, nil
 	}
 
-	data, err := wechat.doReqeust(buildAPI(accessTokenPath, wechat.appid, wechat.secretKey))
+	data, err := w.doRequest(buildAPI(accessTokenPath, w.appID, w.secretKey))
 	if err != nil {
 		return
 	}
@@ -81,14 +79,14 @@ func (wechat *Wechat) AccessToken() (token string, err error) {
 		return token, output.Error()
 	}
 
-	wechat.accessToken = output.AccessToken
-	wechat.accessTokenExpiresAt = time.Now().Unix() + output.ExpiresIn
+	w.accessToken = output.AccessToken
+	w.accessTokenExpiresAt = time.Now().Unix() + output.ExpiresIn
 
 	return output.AccessToken, nil
 }
 
-func (wechat *Wechat) doReqeust(url string) ([]byte, error) {
-	resp, err := wechat.Get(url)
+func (w *Wechat) doRequest(url string) ([]byte, error) {
+	resp, err := w.Get(url)
 	if err != nil {
 		return nil, err
 	}

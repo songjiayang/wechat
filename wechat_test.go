@@ -7,14 +7,20 @@ import (
 	"github.com/golib/assert"
 )
 
-func TestAccessToken(t *testing.T) {
-	assertion := assert.New(t)
-	wClient := NewWechat(&Config{
+var wClient *Wechat
+
+func TestMain(m *testing.M) {
+	wClient = NewWechat(&Config{
 		os.Getenv("WECHAT_APPID"),
 		os.Getenv("WECHAT_SECRETKEY"),
 		30,
 	})
 
+	os.Exit(m.Run())
+}
+
+func TestAccessToken(t *testing.T) {
+	assertion := assert.New(t)
 	token, err := wClient.AccessToken()
 
 	assertion.Nil(err)
