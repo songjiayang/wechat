@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/songjiayang/wechat/api"
 	"os"
 
 	"github.com/songjiayang/wechat"
+	"github.com/songjiayang/wechat/api"
 )
 
 func main() {
