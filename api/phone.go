@@ -19,8 +19,7 @@ type Watermark struct {
 }
 
 func GetPhoneNumber(appID, sessionKey, iv, encryptedData string) (ret PhoneNumberResult, err error) {
-	err = util.DecryptedData(sessionKey, iv, encryptedData, &ret)
-	if err != nil {
+	if err = util.DecryptData(sessionKey, iv, encryptedData, &ret); err != nil {
 		return
 	}
 

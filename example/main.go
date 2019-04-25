@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/songjiayang/wechat/api"
 	"os"
 
 	"github.com/songjiayang/wechat"
@@ -20,7 +21,16 @@ func main() {
 	token, _ := client.AccessToken()
 	fmt.Println(token)
 
-	// WeChat mini app login code.
+	// WeChat mini programs login code.
 	output, _ := client.Login("code")
 	fmt.Println(output)
+
+	phoneOutput, _ := api.GetPhoneNumber(
+		os.Getenv("WECHAT_APPID"),
+		output.SessionKey,
+		os.Getenv("WECHAT_IV"),
+		os.Getenv("WECHAT_ENCRYPTED_DATA"),
+	)
+
+	fmt.Println(phoneOutput.PhoneNumber)
 }

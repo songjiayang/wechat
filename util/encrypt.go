@@ -8,7 +8,7 @@ import (
 	"errors"
 )
 
-func DecryptedData(sessionKey, iv, encryptedData string, bindData interface{}) error {
+func DecryptData(sessionKey, iv, encryptedData string, bindData interface{}) error {
 	_sessionKey, err := base64.StdEncoding.DecodeString(sessionKey)
 	if err != nil {
 		return err
@@ -40,17 +40,17 @@ func PKCS7UnPadding(origData []byte) []byte {
 func AesCBCDncrypt(encryptData, key, iv []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	blockSize := block.BlockSize()
 
 	if len(encryptData) < blockSize {
-		errors.New("ciphertext too short")
+		return nil, errors.New("ciphertext too short")
 	}
 
 	if len(encryptData)%blockSize != 0 {
-		errors.New("ciphertext is not a multiple of the block size")
+		return nil, errors.New("ciphertext is not a multiple of the block size")
 	}
 
 	mode := cipher.NewCBCDecrypter(block, iv)
