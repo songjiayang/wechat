@@ -50,7 +50,7 @@ func main() {
 
 ### Reference
 
-- [login api](https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html) 
+- [login api](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html) 
 - [get access_token](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183)
 - [api/getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html)
 

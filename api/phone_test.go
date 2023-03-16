@@ -1,13 +1,17 @@
 package api
 
 import (
-	"github.com/golib/assert"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetPhoneNumber(t *testing.T) {
-	assertion := assert.New(t)
+
+	if os.Getenv("WECHAT_SESSION_KEY") == "" {
+		return
+	}
 
 	sessionKey := os.Getenv("WECHAT_SESSION_KEY")
 	iv := os.Getenv("WECHAT_IV")
@@ -15,6 +19,6 @@ func TestGetPhoneNumber(t *testing.T) {
 
 	ret, err := GetPhoneNumber(os.Getenv("WECHAT_APPID"), sessionKey, iv, encryptedData)
 
-	assertion.Nil(err)
-	assertion.NotEmpty(ret.PhoneNumber)
+	assert.Nil(t, err)
+	assert.NotEmpty(t, ret.PhoneNumber)
 }

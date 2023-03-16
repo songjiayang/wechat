@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/golib/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAccessTokenOutput(t *testing.T) {
