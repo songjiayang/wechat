@@ -22,15 +22,20 @@ func main() {
 	fmt.Println(token)
 
 	// WeChat mini programs login code.
-	output, _ := client.Login("code")
+	output, err := client.Login(os.Getenv("WECHAT_CODE"))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	fmt.Println(output)
 
-	phoneOutput, _ := api.GetPhoneNumber(
-		os.Getenv("WECHAT_APPID"),
-		output.SessionKey,
-		os.Getenv("WECHAT_IV"),
-		os.Getenv("WECHAT_ENCRYPTED_DATA"),
-	)
-
-	fmt.Println(phoneOutput.PhoneNumber)
+	if os.Getenv("WECHAT_IV") != "" {
+		phoneOutput, _ := api.GetPhoneNumber(
+			os.Getenv("WECHAT_APPID"),
+			output.SessionKey,
+			os.Getenv("WECHAT_IV"),
+			os.Getenv("WECHAT_ENCRYPTED_DATA"),
+		)
+		fmt.Println(phoneOutput.PhoneNumber)
+	}
 }

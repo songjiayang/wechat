@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/golib/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 var wClient *Wechat
@@ -20,9 +20,8 @@ func TestMain(m *testing.M) {
 }
 
 func TestAccessToken(t *testing.T) {
-	assertion := assert.New(t)
 	token, err := wClient.AccessToken()
 
-	assertion.Nil(err)
-	assertion.NotEmpty(token)
+	assert.Nil(t, err)
+	assert.NotEmpty(t, token)
 }
