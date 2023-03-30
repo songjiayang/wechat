@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var wClient *Wechat
+var wClient *Client
 
 func TestMain(m *testing.M) {
-	wClient = NewWechat(&Config{
+	wClient = NewClient(&Config{
 		os.Getenv("WECHAT_APPID"),
 		os.Getenv("WECHAT_SECRETKEY"),
 		30,

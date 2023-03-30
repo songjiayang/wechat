@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/songjiayang/wechat"
-	"github.com/songjiayang/wechat/api"
 )
 
 func main() {
@@ -15,11 +14,11 @@ func main() {
 		Timeout:   30,
 	}
 
-	client := wechat.NewWechat(cfg)
+	client := wechat.NewClient(cfg)
 
 	// get accessToken and cached.
 	token, _ := client.AccessToken()
-	fmt.Println(token)
+	fmt.Printf("token: %s \n", token)
 
 	// WeChat mini programs login code.
 	output, err := client.Login(os.Getenv("WECHAT_CODE"))
@@ -27,15 +26,13 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(output)
+	fmt.Printf("openid: %s \n", output.OpenID)
 
-	if os.Getenv("WECHAT_IV") != "" {
-		phoneOutput, _ := api.GetPhoneNumber(
-			os.Getenv("WECHAT_APPID"),
-			output.SessionKey,
-			os.Getenv("WECHAT_IV"),
-			os.Getenv("WECHAT_ENCRYPTED_DATA"),
-		)
-		fmt.Println(phoneOutput.PhoneNumber)
+	info, err := client.GetUserPhonenumber(os.Getenv("WECHAT_PHONE_CODE"))
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
+
+	fmt.Printf("phone: %s \n", info.PhoneNumber())
 }
